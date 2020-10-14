@@ -6,6 +6,8 @@ library ViewCKB {
     using TypedMemView for bytes29;
     using SafeMath for uint;
     uint256 public constant PERIOD_BLOCKS = 24 * 450 * 7;  // 1 week in blocks
+    uint8 public constant NUMBER_SIZE = 4; // Size of Number in ckb molecule 
+
     enum CKBTypes {
         Unknown,                // 0x0
         Script,                 // 0x1
@@ -13,9 +15,21 @@ library ViewCKB {
         CellInput,
         CellOutput,
         Bytes,
-        LockHash,
-        TypeHash,
+        H256,
+        H160,
         Header,
+
+        RawHeader,
+        Version,
+        CompactTarget,
+        Timestamp,
+        BlockNumber,
+        Epoch,
+        ParentHash,
+        TransactionsRoot,
+        UnclesHash,
+        Dao,
+
         HeaderArray,
         Transaction
     }
@@ -40,7 +54,7 @@ library ViewCKB {
     /// @param _input    the CellInput
     /// @return          the outpoint as a typed memory
     function previousOutput(bytes29 _input) internal pure typeAssert(_input, CKBTypes.CellInput) returns (bytes29) {
-        return _input.slice(8, 44, uint40(CKBTypes.Outpoint));
+        return _input.slice(8, 36, uint40(CKBTypes.Outpoint));
     }
 
     /// @notice         extracts the codeHash from a Script
@@ -55,7 +69,7 @@ library ViewCKB {
     /// @param _input   the Script
     /// @return         the hashType
     function hashType(bytes29 _input) internal pure typeAssert(_input, CKBTypes.Script) returns (uint8) {
-        uint256 startIndex = _input.indexLEUint(4, 4);
+        uint256 startIndex = _input.indexLEUint(8, 4);
         return uint8(_input.indexUint(startIndex, 1));
     }
 
@@ -63,9 +77,86 @@ library ViewCKB {
     /// @param _input   the Script
     /// @return         the args
     function args(bytes29 _input) internal pure typeAssert(_input, CKBTypes.Script) returns (bytes29) {
-        uint256 startIndex = _input.indexLEUint(12, 4);
-        uint256 argsLength = _input.indexLEUint(startIndex, 4);
-        return _input.slice(startIndex, argsLength, uint40(CKBTypes.Bytes));
+        uint256 startIndex = _input.indexLEUint(12, 4) + NUMBER_SIZE;
+        uint256 inputLength = _input.len();
+        return _input.slice(startIndex, inputLength - startIndex , uint40(CKBTypes.Bytes));
+    }
+
+    /// @notice          extracts the rawHeader from a Header
+    /// @param _input    the Header
+    /// @return          the rawHeader as a typed memory
+    function rawHeader(bytes29 _input) internal pure typeAssert(_input, CKBTypes.Header) returns (bytes29) {
+        return _input.slice(0, 192, uint40(CKBTypes.RawHeader));
+    }
+
+    /// @notice         extracts the nonce from a Header
+    /// @param _input   the Header
+    /// @return         the nonce
+    function nonce(bytes29 _input) internal pure typeAssert(_input, CKBTypes.Header) returns (uint128) {
+        return uint128(_input.indexUint(192, 16));
+    }
+    
+    /// @notice         extracts the version from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the version
+    function version(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint32) {
+        return uint32(_input.indexUint(0, 4));
+    }
+    
+    /// @notice         extracts the compactTarget from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the compactTarget
+    function compactTarget(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint32) {
+        return uint32(_input.indexUint(4, 4));
+    }
+    
+    /// @notice         extracts the timestamp from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the timestamp
+    function timestamp(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint64) {
+        return uint64(_input.indexUint(8, 8));
+    }
+    
+    /// @notice         extracts the blockNumber from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the blockNumber
+    function blockNumber(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint64) {
+        return uint64(_input.indexUint(16, 8));
+    }
+    
+    /// @notice         extracts the epoch from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the epoch
+    function epoch(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint64) {
+        return uint64(_input.indexUint(24, 8));
+    }
+
+    /// @notice         extracts the parentHash from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the parentHash
+    function parentHash(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (bytes32) {
+        return _input.index(32, 32);
+    }
+    
+    /// @notice         extracts the transactionsRoot from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the transactionsRoot
+    function transactionsRoot(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (bytes32) {
+        return _input.index(64, 32);
+    }
+        
+    /// @notice         extracts the unclesHash from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the unclesHash
+    function unclesHash(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (bytes32) {
+        return _input.index(128, 32);
+    }       
+
+    /// @notice         extracts the dao from a RawHeader
+    /// @param _input   the RawHeader
+    /// @return         the dao
+    function dao(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (bytes32) {
+        return _input.index(160, 32);
     }
 }
 
