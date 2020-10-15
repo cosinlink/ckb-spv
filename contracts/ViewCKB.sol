@@ -93,42 +93,42 @@ library ViewCKB {
     /// @param _input   the Header
     /// @return         the nonce
     function nonce(bytes29 _input) internal pure typeAssert(_input, CKBTypes.Header) returns (uint128) {
-        return uint128(_input.indexUint(192, 16));
+        return uint128(_input.indexLEUint(192, 16));
     }
     
     /// @notice         extracts the version from a RawHeader
     /// @param _input   the RawHeader
     /// @return         the version
     function version(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint32) {
-        return uint32(_input.indexUint(0, 4));
+        return uint32(_input.indexLEUint(0, 4));
     }
     
     /// @notice         extracts the compactTarget from a RawHeader
     /// @param _input   the RawHeader
     /// @return         the compactTarget
     function compactTarget(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint32) {
-        return uint32(_input.indexUint(4, 4));
+        return uint32(_input.indexLEUint(4, 4));
     }
     
     /// @notice         extracts the timestamp from a RawHeader
     /// @param _input   the RawHeader
     /// @return         the timestamp
     function timestamp(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint64) {
-        return uint64(_input.indexUint(8, 8));
+        return uint64(_input.indexLEUint(8, 8));
     }
     
     /// @notice         extracts the blockNumber from a RawHeader
     /// @param _input   the RawHeader
     /// @return         the blockNumber
     function blockNumber(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint64) {
-        return uint64(_input.indexUint(16, 8));
+        return uint64(_input.indexLEUint(16, 8));
     }
     
     /// @notice         extracts the epoch from a RawHeader
     /// @param _input   the RawHeader
     /// @return         the epoch
     function epoch(bytes29 _input) internal pure typeAssert(_input, CKBTypes.RawHeader) returns (uint64) {
-        return uint64(_input.indexUint(24, 8));
+        return uint64(_input.indexLEUint(24, 8));
     }
 
     /// @notice         extracts the parentHash from a RawHeader

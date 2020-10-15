@@ -100,7 +100,7 @@ contract("ViewCKB", () => {
     it('extracts the nonce from a Header', async () => {
       for (let i = 0; i < extractNonce.length; i += 1) {
         const res = await instance.nonce(extractNonce[i].input);
-        const expected = new BN(extractNonce[i].output, 10);
+        const expected = new BN(extractNonce[i].output, 10);        
         assert(res.eq(expected));
       }
     });

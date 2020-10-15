@@ -3,6 +3,7 @@ pragma solidity ^0.5.10;
 import {TypedMemView} from "../TypedMemView.sol";
 import {ViewCKB} from "../ViewCKB.sol";
 
+
 contract ViewCKBTest {
     using TypedMemView for bytes;
     using TypedMemView for bytes29;
