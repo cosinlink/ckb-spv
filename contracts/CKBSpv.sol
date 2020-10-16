@@ -5,5 +5,7 @@ import {SafeMath} from "./SafeMath.sol";
 import {ViewSpv} from "./ViewSpv.sol";
 
 library CKBSpv {
-        
+    function prove(bytes memory transactionProof) public view returns(bool) {
+        return true;
+    }
 }

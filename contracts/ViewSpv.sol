@@ -12,8 +12,4 @@ library ViewSpv {
         TransactionProof,
         MekleProof
     }
-
-    function prove(bytes memory transactionProof) public view returns(bool) {
-        return true;
-    }
 }
