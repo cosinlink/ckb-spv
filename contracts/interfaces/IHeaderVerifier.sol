@@ -1,8 +1,8 @@
 pragma solidity ^0.5.10;
-import {TypedMemView} from "./TypedMemView.sol";
-import {SafeMath} from "./SafeMath.sol";
-import {CKBCrypto} from "./CKBCrypto.sol";
-import {ViewCKB} from "./ViewCKB.sol";
+import {TypedMemView} from "../libraries/TypedMemView.sol";
+import {SafeMath} from "../libraries/SafeMath.sol";
+import {CKBCrypto} from "../libraries/CKBCrypto.sol";
+import {ViewCKB} from "../libraries/ViewCKB.sol";
 
  interface IHeaderVerifier {
     function verifyPow() internal view returns (bool);
