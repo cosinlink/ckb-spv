@@ -4,7 +4,7 @@ import {CKBCrypto} from "./CKBCrypto.sol";
 import {SafeMath} from "./SafeMath.sol";
 import {ViewCKB} from "./ViewCKB.sol";
 
-contract CKBSpv {
+contract CKBChain {
     // Minimal information about the submitted block.
     struct BlockInfo {
         uint64 blockNumber;
@@ -45,10 +45,6 @@ contract CKBSpv {
     }
 
     function submitHeaders() external view returns(bool) {
-
-    }
-
-    function verifySpvProof() external view returns(bool) {
 
     }
 
