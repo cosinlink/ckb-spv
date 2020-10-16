@@ -1,7 +1,7 @@
 pragma solidity ^0.5.10;
 
-import {TypedMemView} from "../TypedMemView.sol";
-import {ViewCKB} from "../ViewCKB.sol";
+import {TypedMemView} from "../libraries/TypedMemView.sol";
+import {ViewCKB} from "../libraries/ViewCKB.sol";
 
 
 contract ViewCKBTest {
