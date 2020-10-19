@@ -39,7 +39,11 @@ contract CKBChain is ICKBChain, ICKBSpv {
     /// entries.
     /// header number -> header hash
     mapping(uint64 => bytes32) canonicalHeaderHashes;
-    mapping(uint64 => bytes32) canonicalTransactionRoots;
+
+    /// TransactionRoots of the canonical chain mapped to their headerHash. Stores up to `hashes_gc_threshold`
+    /// entries.
+    /// header hash -> transactionRoots from the header
+    mapping(bytes32 => bytes32) canonicalTransactionRoots;
 
 
     /// All known header hashes. Stores up to `finalized_gc_threshold`.
