@@ -33,8 +33,8 @@ contract CKBChain is ICKBChain, ICKBSpv {
     /// Hashes of the canonical chain mapped to their numbers. Stores up to `hashes_gc_threshold`
     /// entries.
     /// header number -> header hash
-    mapping(uint64 => bytes32) activeHeaderHashes;
-    mapping(uint64 => bytes32) activeTransactionRoots;
+    mapping(uint64 => bytes32) canonicalHeaderHashes;
+    mapping(uint64 => bytes32) canonicalTransactionRoots;
 
 
     /// All known header hashes. Stores up to `finalized_gc_threshold`.
@@ -44,8 +44,29 @@ contract CKBChain is ICKBChain, ICKBSpv {
     /// Known headers. Stores up to `finalized_gc_threshold`.
     mapping(bytes32 => BlockHeader) blockHeaders;
 
+
+    /// #ICKBChain
+    function blockHashes(uint64 blockNumber) external view returns(bytes32){
+        return canonicalHeaderHashes[blockNumber];
+    }
+
+    function blockTransactionsRoot(uint64 blockNumber) external view returns(bytes32){
+        return canonicalTransactionRoots[blockNumber];
+    }
+
+    function addHeader(bytes calldata data) external {
+    }
+
+    /// #ICKBSpv
+    function proveTxExist(bytes calldata txProofData, uint64 numConfirmations) external view returns(bool){
+        return false;
+    }
+
+
+    /// #GC
     /// Remove hashes from the active chain that are at least as old as the given header number.
     function gcActiveChain(uint64 blockNumber) internal {
+
     }
 
     /// Remove information about the headers that are at least as old as the given header number.
