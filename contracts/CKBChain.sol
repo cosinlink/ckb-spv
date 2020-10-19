@@ -67,8 +67,8 @@ contract CKBChain is ICKBChain, ICKBSpv {
         return canonicalHeaderHashes[blockNumber];
     }
 
-    function blockTransactionsRoot(uint64 blockNumber) external view returns (bytes32){
-        return canonicalTransactionRoots[blockNumber];
+    function blockTransactionsRoot(bytes32 blockHash) external view returns (bytes32){
+        return canonicalTransactionRoots[blockHash];
     }
 
     function addHeaders(bytes calldata data) external {
