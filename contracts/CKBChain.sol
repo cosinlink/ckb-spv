@@ -78,7 +78,6 @@ contract CKBChain is ICKBChain, ICKBSpv {
     /// #GC
     /// Remove hashes from the active chain that are at least as old as the given header number.
     function gcActiveChain(uint64 blockNumber) internal {
-
     }
 
     /// Remove information about the headers that are at least as old as the given header number.
