@@ -5,22 +5,18 @@ import {SafeMath} from "./libraries/SafeMath.sol";
 import {ViewCKB} from "./libraries/ViewCKB.sol";
 import {ICKBChain} from "./interfaces/ICKBChain.sol";
 import {ICKBSpv} from "./interfaces/ICKBSpv.sol";
-import {IHeaderVerifier} from "./interfaces/IHeaderVerifier.sol";
 
-contract CKBChain is ICKBChain, ICKBSpv, IHeaderVerifier {
+contract CKBChain is ICKBChain, ICKBSpv {
 
     /// We store the hashes of the blocks for the past `HashesGcThreshold` headers.
     /// Events that happen past this threshold cannot be verified by the client.
     /// It is desirable that this number is larger than 7 days worth of headers, which is roughly
     /// 40k ckb blocks. So this number should be 40k in production.
-    uint64 public constant HashesGcThreshold = 40000;
+    uint64 public HashesGcThreshold;
     /// We store full information about the headers for the past `FinalizedGcThreshold` blocks.
     /// This is required to be able to adjust the canonical chain when the fork switch happens.
     /// The commonly used number is 500 blocks, so this number should be 500 in production.
-    uint64 public constant FinalizedGcThreshold = 500;
-    /// Number of `NumConfirmations` that applications can use to consider the transaction safe.
-    /// For most use cases 25 should be enough, for super safe cases it should be 500.
-    uint64 public NumConfirmations = 25;
+    uint64 public FinalizedGcThreshold;
 
     // Minimal information about the submitted block.
     struct BlockHeader {

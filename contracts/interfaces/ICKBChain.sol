@@ -14,6 +14,5 @@ interface ICKBChain {
     function blockHashes(uint64 blockNumber) external view returns(bytes32);
     function blockTransactionsRoot(uint64 blockNumber) external view returns(bytes32);
 
-    function initWithBlock(bytes calldata data) external;
     function addHeader(bytes calldata data) external;
 }
