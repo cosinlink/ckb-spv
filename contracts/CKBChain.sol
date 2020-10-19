@@ -1,12 +1,17 @@
 pragma solidity ^0.5.10;
+
 import {TypedMemView} from "./libraries/TypedMemView.sol";
 import {CKBCrypto} from "./libraries/CKBCrypto.sol";
 import {SafeMath} from "./libraries/SafeMath.sol";
 import {ViewCKB} from "./libraries/ViewCKB.sol";
+import {ViewSpv} from "./libraries/ViewSpv.sol";
 import {ICKBChain} from "./interfaces/ICKBChain.sol";
 import {ICKBSpv} from "./interfaces/ICKBSpv.sol";
 
 contract CKBChain is ICKBChain, ICKBSpv {
+    using TypedMemView for bytes29;
+    using ViewCKB for bytes29;
+    using ViewSpv for bytes29;
 
     /// We store the hashes of the blocks for the past `HashesGcThreshold` headers.
     /// Events that happen past this threshold cannot be verified by the client.
@@ -44,24 +49,31 @@ contract CKBChain is ICKBChain, ICKBSpv {
     /// Known headers. Stores up to `finalized_gc_threshold`.
     mapping(bytes32 => BlockHeader) blockHeaders;
 
+    /// @notice             requires `memView` to be of a specified type
+    /// @param memView      a 29-byte view with a 5-byte type
+    /// @param t            the expected type (e.g. BTCTypes.Outpoint, BTCTypes.TxIn, etc)
+    /// @return             passes if it is the correct type, errors if not
+    modifier typeAssert(bytes29 memView, ViewCKB.CKBTypes t) {
+        memView.assertType(uint40(t));
+        _;
+    }
 
     /// #ICKBChain
-    function blockHashes(uint64 blockNumber) external view returns(bytes32){
+    function blockHashes(uint64 blockNumber) external view returns (bytes32){
         return canonicalHeaderHashes[blockNumber];
     }
 
-    function blockTransactionsRoot(uint64 blockNumber) external view returns(bytes32){
+    function blockTransactionsRoot(uint64 blockNumber) external view returns (bytes32){
         return canonicalTransactionRoots[blockNumber];
     }
 
-    function addHeader(bytes calldata data) external {
+    function addHeaders(bytes calldata data) external {
     }
 
     /// #ICKBSpv
-    function proveTxExist(bytes calldata txProofData, uint64 numConfirmations) external view returns(bool){
-        return false;
+    function proveTxExist(bytes calldata txProofData, uint64 numConfirmations) external view returns (bool){
+        return true;
     }
-
 
     /// #GC
     /// Remove hashes from the active chain that are at least as old as the given header number.
@@ -73,4 +85,8 @@ contract CKBChain is ICKBChain, ICKBSpv {
     function gcHeaders(uint64 blockNumber) internal {
     }
 
+    /// #Verify header
+    function verifyHeader(bytes29 header) internal view typeAssert(header, ViewCKB.CKBTypes.Header) returns (bool){
+        return true;
+    }
 }
