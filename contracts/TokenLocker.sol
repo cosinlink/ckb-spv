@@ -7,7 +7,6 @@ import {ViewCKB} from "./libraries/ViewCKB.sol";
 import {ViewSpv} from "./libraries/ViewSpv.sol";
 import {Address} from "./libraries/Address.sol";
 import {ICKBSpv} from "./interfaces/ICKBSpv.sol";
-import {IWETH} from "./interfaces/IWETH.sol";
 
 contract TokenLocker {
     using SafeMath for uint256;
@@ -51,7 +50,7 @@ contract TokenLocker {
 
     function _decodeBurnResult(bytes memory proofData) internal pure returns (BurnResult memory result) {
         // todo verify burn tx
-        result = BurnResult(9999999, address(0), address(0x408F370E997BED9808ADC07fE81486c032b573D3));
+        result = BurnResult(193300000000000000, address(0), address(0));
     }
 
     // before lockToken, user should approve -> TokenLocker Contract with 0xffffff token
@@ -64,7 +63,7 @@ contract TokenLocker {
         emit Locked(address(0), msg.sender, msg.value, ckbAddress);
     }
 
-    function unlockToken(bytes memory proofData) public payable {
+    function unlockToken(bytes memory proofData) public {
         require(ckbSpv_.proveTxExist(proofData, numConfirmations_), "tx from proofData should exist");
 
         // Unpack the proof and extract the execution outcome.
