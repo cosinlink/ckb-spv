@@ -33,4 +33,8 @@ library ViewSpv {
         uint256 startIndex = _input.indexLEUint(8, 4);
         return _input.index(startIndex, 32);
     }
+
+    function mockTxHash(bytes29 _input) internal pure typeAssert(_input, SpvTypes.TransactionProof) returns (bytes32) {
+        return bytes32(0);
+    }
 }
