@@ -75,7 +75,7 @@ contract TokenLocker {
 
         BurnResult memory result = _decodeBurnResult(proofData);
         if (result.token == address(0)) {
-            // it means token == Eth
+            // it means token is ETH
             result.recipient.toPayable().transfer(result.amount);
         } else {
             IERC20(result.token).transfer(result.recipient, result.amount);

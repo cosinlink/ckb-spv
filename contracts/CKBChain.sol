@@ -34,6 +34,7 @@ contract CKBChain is ICKBChain, ICKBSpv {
 
     // Whether the contract was initialized.
     bool public initialized;
+    uint64 public currentBlockNumber;
 
     /// Hashes of the canonical chain mapped to their numbers. Stores up to `hashes_gc_threshold`
     /// entries.
