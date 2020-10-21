@@ -34,6 +34,7 @@ contract CKBChain is ICKBChain, ICKBSpv {
 
     // Whether the contract was initialized.
     bool public initialized;
+    uint64 public lastBlockNumber;
 
     /// Hashes of the canonical chain mapped to their numbers. Stores up to `hashes_gc_threshold`
     /// entries.
@@ -63,14 +64,6 @@ contract CKBChain is ICKBChain, ICKBSpv {
     }
 
     /// #ICKBChain
-    function blockHashes(uint64 blockNumber) external view returns (bytes32){
-        return canonicalHeaderHashes[blockNumber];
-    }
-
-    function blockTransactionsRoot(bytes32 blockHash) external view returns (bytes32){
-        return canonicalTransactionRoots[blockHash];
-    }
-
     function addHeaders(bytes calldata data) external {
     }
 
