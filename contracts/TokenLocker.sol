@@ -49,12 +49,18 @@ contract TokenLocker {
     }
 
     function _decodeBurnResult(bytes memory proofData) internal pure returns (BurnResult memory result) {
-        // todo verify burn tx
-        result = BurnResult(193300000000000000, address(0), address(0));
+        // TODO
+        // 1. verify burn tx
+        // 2. _decodeBurnResult from proofData
+        uint256 mockAmount = 193300000000000000;
+        address mockToken = address(0);
+        address mockRecipient = address(0);
+        result = BurnResult(mockAmount, mockToken, mockRecipient);
     }
 
     // before lockToken, user should approve -> TokenLocker Contract with 0xffffff token
     function lockToken(address token, uint256 amount, string memory ckbAddress) public {
+        // TODO modify `transferFrom` to `safeTransferFrom`
         IERC20(token).transferFrom(msg.sender, address(this), amount);
         emit Locked(token, msg.sender, amount, ckbAddress);
     }
@@ -68,11 +74,14 @@ contract TokenLocker {
 
         // Unpack the proof and extract the execution outcome.
         bytes29 proof = proofData.ref(uint40(ViewSpv.SpvTypes.TransactionProof));
+
+        // TODO modify `mockTxHash` to `txHash`
         bytes32 txHash = proof.mockTxHash();
         require(!usedTx_[txHash], "The burn tx cannot be reused");
         usedTx_[txHash] = true;
 
         BurnResult memory result = _decodeBurnResult(proofData);
+        // TODO modify `transfer` to `safeTransfer`
         if (result.token == address(0)) {
             // it means token == Eth
             result.recipient.toPayable().transfer(result.amount);

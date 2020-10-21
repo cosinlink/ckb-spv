@@ -13,11 +13,11 @@ contract CKBChain is ICKBChain, ICKBSpv {
     using ViewCKB for bytes29;
     using ViewSpv for bytes29;
 
-    /// We store the hashes of the blocks for the past `HashesGcThreshold` headers.
+    /// We store the hashes of the blocks for the past `CanonicalGcThreshold` headers.
     /// Events that happen past this threshold cannot be verified by the client.
     /// It is desirable that this number is larger than 7 days worth of headers, which is roughly
     /// 40k ckb blocks. So this number should be 40k in production.
-    uint64 public HashesGcThreshold;
+    uint64 public CanonicalGcThreshold;
     /// We store full information about the headers for the past `FinalizedGcThreshold` blocks.
     /// This is required to be able to adjust the canonical chain when the fork switch happens.
     /// The commonly used number is 500 blocks, so this number should be 500 in production.
@@ -36,12 +36,12 @@ contract CKBChain is ICKBChain, ICKBSpv {
     bool public initialized;
     uint64 public lastBlockNumber;
 
-    /// Hashes of the canonical chain mapped to their numbers. Stores up to `hashes_gc_threshold`
+    /// Hashes of the canonical chain mapped to their numbers. Stores up to `canonical_gc_threshold`
     /// entries.
     /// header number -> header hash
     mapping(uint64 => bytes32) canonicalHeaderHashes;
 
-    /// TransactionRoots of the canonical chain mapped to their headerHash. Stores up to `hashes_gc_threshold`
+    /// TransactionRoots of the canonical chain mapped to their headerHash. Stores up to `canonical_gc_threshold`
     /// entries.
     /// header hash -> transactionRoots from the header
     mapping(bytes32 => bytes32) canonicalTransactionRoots;
