@@ -11,7 +11,6 @@ contract("MockSpv", () => {
 
     describe("ProveTxExist", function () {
         it("Should return the new greeting once it's changed", async function () {
-            console.log(expect(await mockSpv.proveTxExist([0], 0)))
             expect(await mockSpv.proveTxExist([0], 0)).to.equal(true);
         });
     });

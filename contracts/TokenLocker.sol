@@ -52,7 +52,7 @@ contract TokenLocker {
         // TODO
         // 1. verify burn tx
         // 2. _decodeBurnResult from proofData
-        uint256 mockAmount = 193300000000000000;
+        uint128 mockAmount = 111100000000000000;
         address mockToken = address(0);
         address mockRecipient = address(0);
         result = BurnResult(mockAmount, mockToken, mockRecipient);

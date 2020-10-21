@@ -18,11 +18,9 @@ contract("TokenLocker", () => {
             // let defaultProvider = ethers.getDefaultProvider();
             const defaultProvider = tokenLocker.signer.provider
             let contractBalance = await defaultProvider.getBalance(tokenLocker.address)
-            console.log("contractBalance: ", contractBalance.toString())
 
             // lockETH
             const amount = ethers.utils.parseEther("1.2")
-            console.log(amount)
             await tokenLocker.lockETH([0], 0, {value: amount});
 
             // asset expected amount == balance of contract delta
@@ -44,7 +42,7 @@ contract("TokenLocker", () => {
             // asset expected amount == balance of contract delta
             const delta = await defaultProvider.getBalance(tokenLocker.address) - contractBalance
             const actualDelta = ethers.BigNumber.from(delta.toString())
-            const expected = ethers.BigNumber.from("-193300000000000000")
+            const expected = ethers.BigNumber.from("-111100000000000000")
             expect(actualDelta).to.equal(expected)
         });
     });

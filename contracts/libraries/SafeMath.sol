@@ -1,4 +1,5 @@
-pragma solidity ^0.5.10;
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.5.10;
 
 /*
 The MIT License (MIT)
@@ -75,4 +76,3 @@ library SafeMath {
         return c;
     }
 }
-
