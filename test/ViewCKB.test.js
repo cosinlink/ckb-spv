@@ -2,7 +2,7 @@
 const BN = require('bn.js');
 
 /* eslint-disable-next-line no-unresolved */
-const vectors = require('./testVectors.json');
+const vectors = require('./data/testVectors.json');
 const ViewCKB = artifacts.require('ViewCKBTest');
 
 const {
